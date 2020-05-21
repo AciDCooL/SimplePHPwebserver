@@ -1,20 +1,8 @@
 FROM php:7.2-apache
 
-RUN docker-php-ext-install pdo pdo_mysql
+#RUN docker-php-ext-install pdo pdo_mysql
 RUN apt-get update && \
-    apt-get install -y -qq git \
-        libjpeg62-turbo-dev \
-        apt-transport-https \
-        libfreetype6-dev \
-        libmcrypt-dev \
-        libssl-dev \
-        zip unzip \
-        nodejs \
-        npm \
-        wget \
-        vim
-
-RUN pecl install redis && docker-php-ext-enable redis
-RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
-RUN docker-php-ext-install -j$(nproc) iconv mcrypt zip pdo pdo_mysql gd bcmath
-RUN for mod in rewrite headers; do a2enmod $mod; done && service apache2 restart
+    apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev libgmp-dev libldap2-dev netcat sqlite3 libsqlite3-dev && \
+    docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
+    docker-php-ext-install gd pdo pdo_mysql pdo_sqlite zip gmp bcmath pcntl ldap sysvmsg exif \
+&& a2enmod rewrite
