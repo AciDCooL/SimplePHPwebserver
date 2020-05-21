@@ -7,7 +7,6 @@ RUN apt-get update && \
         apt-transport-https \
         libfreetype6-dev \
         libmcrypt-dev \
-        libpng12-dev \
         libssl-dev \
         zip unzip \
         nodejs \
